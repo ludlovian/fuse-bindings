@@ -906,7 +906,7 @@ NAN_INLINE static void bindings_call_op_ex (bindings_t *b, Nan::Callback *fn, in
       semaphore_signal(&(b->semaphore));}  
     } 
   else {
-    fn->Call(argc, argv);
+      Nan::Call(*fn, argc, argv);
   }
 }
 
@@ -1251,7 +1251,7 @@ NAN_METHOD(Mount) {
   b->ops_destroy = LOOKUP_CALLBACK(ops, "destroy");
 
   Local<Value> tmp[] = {Nan::New<Number>(index), Nan::New<FunctionTemplate>(OpCallback)->GetFunction()};
-  b->callback = new Nan::Callback(callback_constructor->Call(2, tmp).As<Function>());
+  b->callback = new Nan::Callback(Nan::Call(*callback_constructor, 2, tmp).ToLocalChecked().As<Function>());
 
   strcpy(b->mnt, *path);
   strcpy(b->mntopts, "-o");
@@ -1290,7 +1290,7 @@ class UnmountWorker : public Nan::AsyncWorker {
 
   void HandleOKCallback () {
     Nan::HandleScope scope;
-    callback->Call(0, NULL);
+    Nan::Call(*callback, 0, NULL);
   }
 
  private:
