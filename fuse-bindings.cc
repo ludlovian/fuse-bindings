@@ -738,7 +738,7 @@ NAN_INLINE static Local<Date> bindings_get_date (struct timespec *out) {
 }
 
 NAN_INLINE static void bindings_set_date (struct timespec *out, Local<Date> date) {
-  double ms = date->NumberValue();
+  double ms = date->NumberValue(Nan::GetCurrentContext()).ToChecked();
   time_t secs = (time_t)(ms / 1000.0);
   time_t rem = ms - (1000.0 * secs);
   time_t ns = rem * 1000000.0;
@@ -747,16 +747,16 @@ NAN_INLINE static void bindings_set_date (struct timespec *out, Local<Date> date
 }
 
 NAN_INLINE static void bindings_set_stat (struct FUSE_STAT *stat, Local<Object> obj) {
-  if (obj->Has(LOCAL_STRING("dev"))) stat->st_dev = obj->Get(LOCAL_STRING("dev"))->NumberValue();
-  if (obj->Has(LOCAL_STRING("ino"))) stat->st_ino = obj->Get(LOCAL_STRING("ino"))->NumberValue();
-  if (obj->Has(LOCAL_STRING("mode"))) stat->st_mode = obj->Get(LOCAL_STRING("mode"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("nlink"))) stat->st_nlink = obj->Get(LOCAL_STRING("nlink"))->NumberValue();
-  if (obj->Has(LOCAL_STRING("uid"))) stat->st_uid = obj->Get(LOCAL_STRING("uid"))->NumberValue();
-  if (obj->Has(LOCAL_STRING("gid"))) stat->st_gid = obj->Get(LOCAL_STRING("gid"))->NumberValue();
-  if (obj->Has(LOCAL_STRING("rdev"))) stat->st_rdev = obj->Get(LOCAL_STRING("rdev"))->NumberValue();
-  if (obj->Has(LOCAL_STRING("size"))) stat->st_size = obj->Get(LOCAL_STRING("size"))->NumberValue();
-  if (obj->Has(LOCAL_STRING("blocks"))) stat->st_blocks = obj->Get(LOCAL_STRING("blocks"))->NumberValue();
-  if (obj->Has(LOCAL_STRING("blksize"))) stat->st_blksize = obj->Get(LOCAL_STRING("blksize"))->NumberValue();
+  if (obj->Has(LOCAL_STRING("dev"))) stat->st_dev = obj->Get(LOCAL_STRING("dev"))->NumberValue(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("ino"))) stat->st_ino = obj->Get(LOCAL_STRING("ino"))->NumberValue(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("mode"))) stat->st_mode = obj->Get(LOCAL_STRING("mode"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("nlink"))) stat->st_nlink = obj->Get(LOCAL_STRING("nlink"))->NumberValue(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("uid"))) stat->st_uid = obj->Get(LOCAL_STRING("uid"))->NumberValue(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("gid"))) stat->st_gid = obj->Get(LOCAL_STRING("gid"))->NumberValue(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("rdev"))) stat->st_rdev = obj->Get(LOCAL_STRING("rdev"))->NumberValue(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("size"))) stat->st_size = obj->Get(LOCAL_STRING("size"))->NumberValue(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("blocks"))) stat->st_blocks = obj->Get(LOCAL_STRING("blocks"))->NumberValue(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("blksize"))) stat->st_blksize = obj->Get(LOCAL_STRING("blksize"))->NumberValue(Nan::GetCurrentContext()).ToChecked();
 #ifdef __APPLE__
   if (obj->Has(LOCAL_STRING("mtime"))) bindings_set_date(&stat->st_mtimespec, obj->Get(LOCAL_STRING("mtime")).As<Date>());
   if (obj->Has(LOCAL_STRING("ctime"))) bindings_set_date(&stat->st_ctimespec, obj->Get(LOCAL_STRING("ctime")).As<Date>());
@@ -769,17 +769,17 @@ NAN_INLINE static void bindings_set_stat (struct FUSE_STAT *stat, Local<Object> 
 }
 
 NAN_INLINE static void bindings_set_statfs (struct statvfs *statfs, Local<Object> obj) { // from http://linux.die.net/man/2/stat
-  if (obj->Has(LOCAL_STRING("bsize"))) statfs->f_bsize = obj->Get(LOCAL_STRING("bsize"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("frsize"))) statfs->f_frsize = obj->Get(LOCAL_STRING("frsize"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("blocks"))) statfs->f_blocks = obj->Get(LOCAL_STRING("blocks"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("bfree"))) statfs->f_bfree = obj->Get(LOCAL_STRING("bfree"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("bavail"))) statfs->f_bavail = obj->Get(LOCAL_STRING("bavail"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("files"))) statfs->f_files = obj->Get(LOCAL_STRING("files"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("ffree"))) statfs->f_ffree = obj->Get(LOCAL_STRING("ffree"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("favail"))) statfs->f_favail = obj->Get(LOCAL_STRING("favail"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("fsid"))) statfs->f_fsid = obj->Get(LOCAL_STRING("fsid"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("flag"))) statfs->f_flag = obj->Get(LOCAL_STRING("flag"))->Uint32Value();
-  if (obj->Has(LOCAL_STRING("namemax"))) statfs->f_namemax = obj->Get(LOCAL_STRING("namemax"))->Uint32Value();
+  if (obj->Has(LOCAL_STRING("bsize"))) statfs->f_bsize = obj->Get(LOCAL_STRING("bsize"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("frsize"))) statfs->f_frsize = obj->Get(LOCAL_STRING("frsize"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("blocks"))) statfs->f_blocks = obj->Get(LOCAL_STRING("blocks"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("bfree"))) statfs->f_bfree = obj->Get(LOCAL_STRING("bfree"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("bavail"))) statfs->f_bavail = obj->Get(LOCAL_STRING("bavail"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("files"))) statfs->f_files = obj->Get(LOCAL_STRING("files"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("ffree"))) statfs->f_ffree = obj->Get(LOCAL_STRING("ffree"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("favail"))) statfs->f_favail = obj->Get(LOCAL_STRING("favail"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("fsid"))) statfs->f_fsid = obj->Get(LOCAL_STRING("fsid"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("flag"))) statfs->f_flag = obj->Get(LOCAL_STRING("flag"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+  if (obj->Has(LOCAL_STRING("namemax"))) statfs->f_namemax = obj->Get(LOCAL_STRING("namemax"))->Uint32Value(Nan::GetCurrentContext()).ToChecked();
 }
 
 class SetDirWorker : public Nan::AsyncWorker {
@@ -810,8 +810,8 @@ class SetDirWorker : public Nan::AsyncWorker {
 
 
 NAN_METHOD(OpCallback) {
-  bindings_t *b = bindings_mounted[info[0]->Uint32Value()];
-  b->result = (info.Length() > 1 && info[1]->IsNumber()) ? info[1]->Uint32Value() : 0;
+  bindings_t *b = bindings_mounted[info[0]->Uint32Value(Nan::GetCurrentContext()).ToChecked()];
+  b->result = (info.Length() > 1 && info[1]->IsNumber()) ? info[1]->Uint32Value(Nan::GetCurrentContext()).ToChecked() : 0;
   bindings_current = NULL;
   
   if (!b->result) {
@@ -851,7 +851,7 @@ NAN_METHOD(OpCallback) {
       case OP_OPEN:
       case OP_OPENDIR: {
         if (info.Length() > 2 && info[2]->IsNumber()) {
-          b->info->fh = info[2].As<Number>()->Uint32Value();
+          b->info->fh = info[2].As<Number>()->Uint32Value(Nan::GetCurrentContext()).ToChecked();
         }
       }
       break;
